@@ -1,0 +1,192 @@
+
+<!-- <div class="player-container">
+  <h2 class="player-title">Mon Lecteur Audio</h2> -->
+
+  <!-- <div class="grid"> -->
+    <!-- Première colonne : Audio Processor -->
+    <!-- <div class="grid-column audio-processor-column">
+      <audio-processor></audio-processor>
+    </div> -->
+
+    <!-- Deuxième colonne : Playlist et autres éléments -->
+    <!-- <div class="grid-column controls-column"> -->
+      <!-- Playlist -->
+      <!-- <playlist-component></playlist-component> -->
+
+      <!-- Audio et commandes -->
+      <!-- <audio controls></audio>
+      <div class="controls">
+        <button id="stop">Stop</button>
+        <button id="rewind">Reculer</button>
+        <button id="forward">Avancer</button>
+        <button id="next">Suivant</button>
+        <button id="previous">Précédent</button>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
+      </div>
+      <div class="progress">
+        <input type="range" id="progressBar" min="0" max="100" value="0">
+        <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+      </div> -->
+
+      <!-- Oscilloscope -->
+      <!-- <oscilloscope-component></oscilloscope-component>
+    </div>
+  </div>
+</div> -->
+<div class="player-container">
+  <h2 class="player-title">Mon Lecteur Audio</h2>
+
+  <div class="grid">
+    <!-- Première colonne : Audio Processor -->
+    <div class="grid-column audio-processor-column">
+      <audio-processor></audio-processor>
+    </div>
+
+    <!-- Deuxième colonne : Playlist et autres éléments -->
+    <div class="grid-column controls-column">
+      <!-- Playlist -->
+      <playlist-component></playlist-component>
+
+      <!-- Audio et commandes -->
+      <audio id="audioElement" controls></audio>
+      <div class="controls">
+        <canvas id="playIcon" width="40" height="40"></canvas>
+        <canvas id="stopIcon" width="40" height="40"></canvas>
+        <canvas id="rewindIcon" width="40" height="40"></canvas>
+        <canvas id="forwardIcon" width="40" height="40"></canvas>
+        <canvas id="volumeIcon" width="40" height="40"></canvas>
+      </div>
+      <!-- <div class="progress">
+        <input type="range" id="progressBar" min="0" max="100" value="0">
+        <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+      </div> -->
+
+      <!-- Oscilloscope -->
+      <oscilloscope-component></oscilloscope-component>
+    </div>
+  </div>
+</div>
+
+
+<style>
+ /* Global container centering */
+.player-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 60%;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    background-color: #222;
+    border-radius: 10px;
+    padding: 20px;
+    top: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    
+    box-sizing: border-box; /* Assure que le padding n'affecte pas la hauteur */
+    overflow: hidden;
+    position: relative; /* Nécessaire pour centrer avec flex */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+    gap: 20px;
+    width: 100%; /* Remplit la largeur du parent */
+    height: 100%; /* Remplit toute la hauteur du parent */
+    box-sizing: border-box;
+    overflow: hidden; /* Empêche tout débordement des colonnes */
+}
+
+.grid-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%; /* Remplit toute la hauteur disponible */
+    overflow: hidden; /* Empêche tout débordement vertical */
+    box-sizing: border-box; /* Padding inclus dans la hauteur totale */
+}
+/* Colonne Audio Processor */
+.audio-processor-column {
+    background-color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Les enfants sont empilés verticalement */
+    justify-content: space-between;
+    height: 100%; /* Remplit toute la hauteur disponible */
+    overflow: hidden; /* Empêche tout débordement vertical */
+    box-sizing: border-box;
+}
+
+/* Colonne Playlist et autres éléments */
+.controls-column {
+    background-color: #444;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Remplit toute la hauteur disponible */
+    overflow: hidden; /* Empêche tout débordement vertical */
+    box-sizing: border-box;
+}
+
+/* Audio controls and playlist styles */
+audio {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Permet le retour à la ligne si nécessaire */
+}
+
+.controls canvas {
+    cursor: pointer;
+}
+
+.progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.progress input[type="range"] {
+    flex-grow: 1;
+}
+
+/* Playlist Component */
+playlist-component {
+    width: 100%;
+    
+    overflow: auto; /* Active une barre de défilement si nécessaire */
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box; /* Assure que le padding est pris en compte */
+}
+
+/* Oscilloscope Component */
+oscilloscope-component {
+    flex-grow: 1; /* Permet à l'oscilloscope de prendre tout l'espace restant */
+    width: 100%; /* Ne dépasse pas la largeur du parent */
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    overflow: hidden; /* Empêche tout débordement de contenu */
+}
+
+</style>
